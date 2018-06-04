@@ -1,19 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace RulesParser
 {
     public abstract class TextParser<TBuilder>
     {
-        public List<ParserError> ParseAllText(TBuilder builder, string rulesText)
+        public List<ParserError> Parse(TBuilder builder, string rulesText)
         {
             if (SentenceParsers == null)
             {
-                CreateSentenceParsers();
+                SentenceParsers = CreateSentenceParsers().ToArray();
             }
 
             var errors = new List<ParserError>();
 
-            string[] sentences = SplitSentences(rulesText);
+            IEnumerable<string> sentences = SplitSentences(rulesText);
 
             foreach (var sentence in sentences)
             {
@@ -27,19 +28,21 @@ namespace RulesParser
             return errors;
         }
 
-        private string[] SplitSentences(string rulesText)
+        private IEnumerable<string> SplitSentences(string rulesText)
         {
             // TODO: if sentences can contain a . inside a quote (or as a number separator?), don't split on those.
-            return rulesText.Split('.');
+            return rulesText.Split('.')
+                .Select(sentence => sentence.Trim(' ', '\t', '\n', '\r'))
+                .Where(sentence => sentence.Length > 0);
         }
 
-        private List<SentenceParser<TBuilder>> SentenceParsers { get; set; }
+        private SentenceParser<TBuilder>[] SentenceParsers { get; set; }
 
         private ParserError ParseSentence(TBuilder builder, string sentence)
         {
             foreach (var parser in SentenceParsers)
             {
-                if (parser.Parse(builder, sentence.Trim(), out string errorMsg))
+                if (parser.Parse(builder, sentence, out string errorMsg))
                 {
                     if (errorMsg == null)
                     {

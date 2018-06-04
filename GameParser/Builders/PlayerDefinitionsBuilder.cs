@@ -1,6 +1,8 @@
 ﻿using GameModel.Definition;
 using RulesParser;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace GameParser.Builders
 {
@@ -10,11 +12,53 @@ namespace GameParser.Builders
 
         public int MinPlayers { get; private set; } = 2;
         public int MaxPlayers { get; private set; } = 2;
-        private bool HasSpecifiedNumbers { get; set; } = false;
+        public bool HasSpecifiedNumbers { get; private set; } = false;
 
         public string[] PlayerColors { get; private set; } = null;
         public string[] PlayerNames { get; private set; } = null;
         
+        public bool IsValidColor(string color)
+        {   
+            return hexColor.IsMatch(color) || defaultColors.Contains(color);
+        }
+
+        private static readonly Regex hexColor = new Regex("#[a-f\\d]{6}", RegexOptions.IgnoreCase);
+
+        private static readonly string[] defaultColors = new[] {
+            "red",
+            "blue",
+            "yellow",
+            "green",
+            "purple",
+            "orange",
+            "pink",
+            "brown",
+            "teal",
+            "cyan",
+            "fuschia",
+            "magenta",
+            "olive",
+            "maroon",
+            "silver",
+            "indigo",
+            "coral",
+            "gold",
+            "sienna",
+            "lime",
+            "plum",
+            "tan",
+            "beige",
+            "lavendar",
+            "salmon",
+            "khaki",
+            "linen",
+            "crimson",
+            "navy",
+            "black",
+            "white",
+            "grey",
+        };
+
         public bool CanBuild()
         {
             return HasSpecifiedNumbers;
@@ -22,39 +66,6 @@ namespace GameParser.Builders
 
         public PlayerDefinition[] Build()
         {
-            string[] defaultColors = new[] {
-                "red",
-                "blue",
-                "yellow",
-                "green",
-                "purple",
-                "orange",
-                "pink",
-                "brown",
-                "teal",
-                "cyan",
-                "fuschia",
-                "magenta",
-                "olive",
-                "maroon",
-                "silver",
-                "indigo",
-                "coral",
-                "gold",
-                "sienna",
-                "lime",
-                "plum",
-                "tan",
-                "beige",
-                "lavendar",
-                "salmon",
-                "khaki",
-                "linen",
-                "crimson",
-                "navy",
-                "black",
-                "white",
-            };
             var definitions = new List<PlayerDefinition>();
 
             for (int i=0; i < MaxPlayers; i++)

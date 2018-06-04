@@ -3,9 +3,9 @@ using GameParser.Sentences;
 using System.Linq;
 using Xunit;
 
-namespace GameParserTests
+namespace GameParserTests.SentenceParsers
 {
-    public class PlayerCountTests
+    public class PlayerDefinitionTests
     {
         [Theory]
         [InlineData("There is 1 player", 1, 1)]

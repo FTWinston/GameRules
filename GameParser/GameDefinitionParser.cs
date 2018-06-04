@@ -13,6 +13,8 @@ namespace GameParser
         protected override IEnumerable<SentenceParser<GameDefinitionBuilder>> CreateSentenceParsers()
         {
             yield return new PlayerCount();
+            yield return new PlayerColors();
+            yield return new PlayerNames();
         }
     }
 }
