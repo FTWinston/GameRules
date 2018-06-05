@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GameModel\GameModel.csproj" />
-    <ProjectReference Include="..\RulesParser\RulesParser.csproj" />
+    <ProjectReference Include="..\NaturalConfiguration\NaturalConfiguration.csproj" />
   </ItemGroup>
 
 </Project>

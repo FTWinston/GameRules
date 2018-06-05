@@ -1,0 +1,4 @@
+[submodule "NaturalConfiguration"]
+	path = NaturalConfiguration
+	url = git@github.com:FTWinston/NaturalConfigurationNET.git
+	branch = master

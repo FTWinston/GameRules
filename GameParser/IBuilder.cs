@@ -1,4 +1,4 @@
-﻿namespace RulesParser
+﻿namespace GameParser
 {
     public interface IBuilder<T>
     {

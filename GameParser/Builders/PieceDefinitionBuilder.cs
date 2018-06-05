@@ -1,5 +1,4 @@
 ﻿using GameModel.Definition;
-using RulesParser;
 
 namespace GameParser.Builders
 {

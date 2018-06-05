@@ -1,5 +1,5 @@
 ﻿using GameParser.Builders;
-using RulesParser;
+using NaturalConfiguration;
 using System.Collections.Generic;
 
 namespace GameParser.Sentences

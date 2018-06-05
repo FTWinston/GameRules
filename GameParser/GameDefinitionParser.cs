@@ -1,6 +1,6 @@
 ﻿using GameParser.Builders;
 using GameParser.Sentences;
-using RulesParser;
+using NaturalConfiguration;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 
 namespace GameParser
 {
-    public class GameDefinitionParser : TextParser<GameDefinitionBuilder>
+    public class GameDefinitionParser : ConfigurationParser<GameDefinitionBuilder>
     {
         protected override IEnumerable<SentenceParser<GameDefinitionBuilder>> CreateSentenceParsers()
         {
