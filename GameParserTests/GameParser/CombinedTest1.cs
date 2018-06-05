@@ -5,7 +5,7 @@ using Xunit;
 
 namespace GameParserTests.GameParsers
 {
-    public class PlayerDefinitionTests
+    public class CombinedTest1
     {
         [Fact]
         public void TestCombo()
@@ -13,7 +13,10 @@ namespace GameParserTests.GameParsers
             var text = @"
 There are 3 players.
 Player names are attacker, neutral and defender.
-Player colors are red, white and blue.
+Player colors are red, #cccccc and blue.
+
+The board is an 8x8 grid. Only one piece can occupy a cell on the board.
+Cells on the board are colored grey, and have a thin black border.
 ";
 
             var parser = new GameDefinitionParser();
@@ -30,10 +33,19 @@ Player colors are red, white and blue.
             Assert.Equal("red", definition.Players[0].Color);
 
             Assert.Equal("neutral", definition.Players[1].Name);
-            Assert.Equal("white", definition.Players[1].Color);
+            Assert.Equal("#cccccc", definition.Players[1].Color);
 
             Assert.Equal("defender", definition.Players[2].Name);
             Assert.Equal("blue", definition.Players[2].Color);
+
+            Assert.Single(definition.Boards);
+
+            var board = definition.Boards[0];
+            Assert.Equal(64, board.Cells.Length);
+            Assert.Equal("grey", board.Cells.First().Color);
+
+            Assert.Equal("black", board.BorderColor);
+            Assert.Equal(1, board.BorderWidth);
         }
     }
 }

@@ -15,6 +15,10 @@ namespace GameParser
             yield return new PlayerCount();
             yield return new PlayerColors();
             yield return new PlayerNames();
+
+            yield return new BoardGrid();
+            yield return new CellOccupancy();
+            yield return new CellColorSingle();
         }
     }
 }

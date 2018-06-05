@@ -17,48 +17,6 @@ namespace GameParser.Builders
         public string[] PlayerColors { get; private set; } = null;
         public string[] PlayerNames { get; private set; } = null;
         
-        public bool IsValidColor(string color)
-        {   
-            return hexColor.IsMatch(color) || defaultColors.Contains(color);
-        }
-
-        private static readonly Regex hexColor = new Regex("#[a-f\\d]{6}", RegexOptions.IgnoreCase);
-
-        private static readonly string[] defaultColors = new[] {
-            "red",
-            "blue",
-            "yellow",
-            "green",
-            "purple",
-            "orange",
-            "pink",
-            "brown",
-            "teal",
-            "cyan",
-            "fuschia",
-            "magenta",
-            "olive",
-            "maroon",
-            "silver",
-            "indigo",
-            "coral",
-            "gold",
-            "sienna",
-            "lime",
-            "plum",
-            "tan",
-            "beige",
-            "lavendar",
-            "salmon",
-            "khaki",
-            "linen",
-            "crimson",
-            "navy",
-            "black",
-            "white",
-            "grey",
-        };
-
         public bool CanBuild()
         {
             return HasSpecifiedNumbers;
@@ -78,7 +36,7 @@ namespace GameParser.Builders
 
                 string color = PlayerColors != null && PlayerColors.Length > i
                     ? PlayerColors[i]
-                    : defaultColors.Length > i ? defaultColors[i]
+                    : Colors.DefaultColors.Length > i ? Colors.DefaultColors[i]
                     : "grey";
 
                 definitions.Add(new PlayerDefinition(required, name, color));

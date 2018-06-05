@@ -5,8 +5,9 @@ namespace RulesParser
 {
     public abstract class ListParser<TBuilder>: SentenceParser<TBuilder>
     {
-        protected override string Expression => $"{ExpressionPrefix}({ElementExpression})(?:, ({ElementExpression}))*(?: and ({ElementExpression}))?";
+        protected override string Expression => $"{ExpressionPrefix}({ElementExpression})(?:, ({ElementExpression}))*(?: and ({ElementExpression}))?{ExpressionSuffix}";
         protected abstract string ExpressionPrefix { get; }
+        protected virtual string ExpressionSuffix { get; } = string.Empty;
         protected virtual string ElementExpression { get; } = "\\w+";
 
         protected override string ParseMatch(TBuilder builder, Match match)

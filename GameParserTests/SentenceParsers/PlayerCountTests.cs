@@ -5,7 +5,7 @@ using Xunit;
 
 namespace GameParserTests.SentenceParsers
 {
-    public class PlayerDefinitionTests
+    public class PlayerCountTests
     {
         [Theory]
         [InlineData("There is 1 player", 1, 1)]
