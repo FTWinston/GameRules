@@ -1,6 +1,8 @@
 ﻿using GameParser.Builders;
 using NaturalConfiguration;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace GameParser.Sentences
 {
@@ -9,29 +11,35 @@ namespace GameParser.Sentences
         protected override string ExpressionPrefix => "player colou?rs are ";
         protected override string ElementExpression => Colors.ColorExpression;
 
-        protected override string ParseValues(GameDefinitionBuilder builder, List<string> values)
+        protected override IEnumerable<ParserError> ParseValues(GameDefinitionBuilder builder, List<Capture> values)
         {
+            bool success = true;
+
             if (!builder.Players.HasSpecifiedNumbers)
             {
-                return $"Specify the number of players before their colors.";
+                yield return new ParserError("Specify the number of players before their colors.");
+                success = false;
             }
-            
-            if (builder.Players.MaxPlayers != values.Count)
+            else if (builder.Players.MaxPlayers != values.Count)
             {
                 var paramName = builder.Players.MinPlayers == builder.Players.MaxPlayers ? "number" : "max number";
-                return $"Number of colors doesn't match the {paramName} of players. Got {values.Count}, expected {builder.Players.MaxPlayers}.";
+                yield return new ParserError($"Number of colors doesn't match the {paramName} of players. Got {values.Count}, expected {builder.Players.MaxPlayers}.");
+                success = false;
             }
 
             foreach (var value in values)
             {
-                if (!Colors.IsValidColor(value))
+                if (!Colors.IsValidColor(value.Value))
                 {
-                    return $"Invalid color: '{value}' not recognised.";
+                    yield return new ParserError($"Invalid color: '{value}' not recognised.", value);
+                    success = false;
                 }
             }
 
-            builder.Players.SetPlayerColors(values.ToArray());
-            return null;
+            if (success)
+            {
+                builder.Players.SetPlayerColors(values.Select(v => v.Value).ToArray());
+            }
         }
     }
 }

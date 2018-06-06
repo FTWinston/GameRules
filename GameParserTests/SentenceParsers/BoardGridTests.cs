@@ -1,6 +1,7 @@
 using GameParser.Builders;
 using GameParser.Sentences;
-using System.Linq;
+using NaturalConfiguration;
+using System.Collections.Generic;
 using Xunit;
 
 namespace GameParserTests.SentenceParsers
@@ -18,9 +19,9 @@ namespace GameParserTests.SentenceParsers
             var parser = new BoardGrid();
             var builder = new GameDefinitionBuilder();
 
-            var didMatch = parser.Parse(builder, sentence, out string error);
+            var didMatch = parser.Parse(builder, sentence, out ParserError[] errors);
             Assert.True(didMatch);
-            Assert.Null(error);
+            Assert.Empty(errors);
 
             var definition = builder.Build();
             Assert.Single(definition.Boards);
@@ -39,9 +40,9 @@ namespace GameParserTests.SentenceParsers
             var parser = new BoardGrid();
             var builder = new GameDefinitionBuilder();
 
-            var didMatch = parser.Parse(builder, sentence, out string error);
+            var didMatch = parser.Parse(builder, sentence, out ParserError[] errors);
             Assert.True(didMatch);
-            Assert.NotNull(error);
+            Assert.NotEmpty(errors);
         }
 
         [Theory]
@@ -56,7 +57,7 @@ namespace GameParserTests.SentenceParsers
             var parser = new BoardGrid();
             var builder = new GameDefinitionBuilder();
 
-            var didMatch = parser.Parse(builder, sentence, out string error);
+            var didMatch = parser.Parse(builder, sentence, out ParserError[] errors);
 
             Assert.False(didMatch);
         }

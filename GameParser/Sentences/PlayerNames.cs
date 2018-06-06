@@ -1,6 +1,8 @@
 ﻿using GameParser.Builders;
 using NaturalConfiguration;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace GameParser.Sentences
 {
@@ -8,21 +10,22 @@ namespace GameParser.Sentences
     {
         protected override string ExpressionPrefix => "player names are ";
 
-        protected override string ParseValues(GameDefinitionBuilder builder, List<string> values)
+        protected override IEnumerable<ParserError> ParseValues(GameDefinitionBuilder builder, List<Capture> values)
         {
             if (!builder.Players.HasSpecifiedNumbers)
             {
-                return $"Specify the number of players before their names.";
+                yield return new ParserError("Specify the number of players before their names.");
+                yield break;
             }
             
             if (builder.Players.MaxPlayers != values.Count)
             {
                 var paramName = builder.Players.MinPlayers == builder.Players.MaxPlayers ? "number" : "max number";
-                return $"Number of names doesn't match the {paramName} of players. Got {values.Count}, expected {builder.Players.MaxPlayers}.";
+                yield return new ParserError($"Number of names doesn't match the {paramName} of players. Got {values.Count}, expected {builder.Players.MaxPlayers}.");
+                yield break;
             }
 
-            builder.Players.SetPlayerNames(values.ToArray());
-            return null;
+            builder.Players.SetPlayerNames(values.Select(v => v.Value).ToArray());
         }
     }
 }

@@ -1,5 +1,7 @@
 using GameParser.Builders;
 using GameParser.Sentences;
+using NaturalConfiguration;
+using System.Collections.Generic;
 using Xunit;
 
 namespace GameParserTests.SentenceParsers
@@ -18,9 +20,9 @@ namespace GameParserTests.SentenceParsers
 
             (new BoardGrid()).Parse(builder, "The board is a 2x2 grid", out _);
 
-            var didMatch = parser.Parse(builder, sentence, out string error);
+            var didMatch = parser.Parse(builder, sentence, out ParserError[] errors);
             Assert.True(didMatch);
-            Assert.Null(error);
+            Assert.Empty(errors);
 
             var definition = builder.Build();
             Assert.Single(definition.Boards);
@@ -37,9 +39,9 @@ namespace GameParserTests.SentenceParsers
             var parser = new CellOccupancy();
             var builder = new GameDefinitionBuilder();
 
-            var didMatch = parser.Parse(builder, sentence, out string error);
+            var didMatch = parser.Parse(builder, sentence, out ParserError[] errors);
             Assert.True(didMatch);
-            Assert.NotNull(error);
+            Assert.NotEmpty(errors);
         }
 
         [Theory]
@@ -51,7 +53,7 @@ namespace GameParserTests.SentenceParsers
             var parser = new CellOccupancy();
             var builder = new GameDefinitionBuilder();
 
-            var didMatch = parser.Parse(builder, sentence, out string error);
+            var didMatch = parser.Parse(builder, sentence, out ParserError[] errors);
 
             Assert.False(didMatch);
         }
@@ -63,9 +65,9 @@ namespace GameParserTests.SentenceParsers
             var parser = new CellOccupancy();
             var builder = new GameDefinitionBuilder();
 
-            var didMatch = parser.Parse(builder, sentence, out string error);
+            var didMatch = parser.Parse(builder, sentence, out ParserError[] errors);
             Assert.True(didMatch);
-            Assert.NotNull(error);
+            Assert.NotEmpty(errors);
         }
 
         [Fact]

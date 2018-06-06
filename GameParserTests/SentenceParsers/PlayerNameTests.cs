@@ -1,5 +1,7 @@
 using GameParser.Builders;
 using GameParser.Sentences;
+using NaturalConfiguration;
+using System.Collections.Generic;
 using Xunit;
 
 namespace GameParserTests.SentenceParsers
@@ -19,9 +21,9 @@ namespace GameParserTests.SentenceParsers
             
             (new PlayerCount()).Parse(builder, $"There are {names.Length} players", out _);
 
-            var didMatch = parser.Parse(builder, sentence, out string error);
+            var didMatch = parser.Parse(builder, sentence, out ParserError[] errors);
             Assert.True(didMatch);
-            Assert.Null(error);
+            Assert.Empty(errors);
 
             var definition = builder.Build();
             for (int i=0; i<definition.Players.Length && i < names.Length; i++)
@@ -44,7 +46,7 @@ namespace GameParserTests.SentenceParsers
             var parser = new PlayerNames();
             var builder = new GameDefinitionBuilder();
 
-            var didMatch = parser.Parse(builder, sentence, out string error);
+            var didMatch = parser.Parse(builder, sentence, out ParserError[] errors);
 
             Assert.False(didMatch);
         }
@@ -56,9 +58,9 @@ namespace GameParserTests.SentenceParsers
             var parser = new PlayerNames();
             var builder = new GameDefinitionBuilder();
 
-            var didMatch = parser.Parse(builder, sentence, out string error);
+            var didMatch = parser.Parse(builder, sentence, out ParserError[] errors);
             Assert.True(didMatch);
-            Assert.NotNull(error);
+            Assert.NotEmpty(errors);
         }
 
         [Fact]
