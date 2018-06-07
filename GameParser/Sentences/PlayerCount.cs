@@ -7,7 +7,18 @@ namespace GameParser.Sentences
 {
     class PlayerCount : SentenceParser<GameDefinitionBuilder>
     {
-        protected override string Expression => "there (?:are|is) (\\d+)(?:(?: - |-| to )(\\d+))? players?";
+        public override string Name => "Specify the number of players";
+        public override string Group => "Players";
+
+        public override string[] Examples => new[]
+        {
+            "There is 1 player",
+            "There are 2 players",
+            "There are 2 to 4 players",
+            "There are 3 - 6 players",
+        };
+
+        protected override string ExpressionText => "There (?:are|is) (\\d+)(?:(?: - |-| to )(\\d+))? players?";
         
         protected override IEnumerable<ParserError> ParseMatch(GameDefinitionBuilder builder, Match match)
         {

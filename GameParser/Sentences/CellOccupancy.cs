@@ -8,7 +8,16 @@ namespace GameParser.Sentences
 {
     public class CellOccupancy : SentenceParser<GameDefinitionBuilder>
     {
-        protected override string Expression => "(multiple pieces|only one piece) can occupy a cell on (?:the )?(\\w+)";
+        public override string Name => "Specify whether multiple pieces can occupy the same cell";
+        public override string Group => "Board";
+
+        public override string[] Examples => new[]
+        {
+            "Multiple pieces can occupy a cell on the board",
+            "Only one piece can occupy a cell on scoreboard",
+        };
+
+        protected override string ExpressionText => "(multiple pieces|only one piece) can occupy a cell on (?:the )?(\\w+)";
 
         protected override IEnumerable<ParserError> ParseMatch(GameDefinitionBuilder builder, Match match)
         {

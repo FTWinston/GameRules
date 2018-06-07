@@ -8,8 +8,17 @@ namespace GameParser.Sentences
 {
     public class PlayerColors : ListParser<GameDefinitionBuilder>
     {
-        protected override string ExpressionPrefix => "player colou?rs are ";
-        protected override string ElementExpression => Colors.ColorExpression;
+        public override string Name => "Specify player colors";
+        public override string Group => "Players";
+
+        public override string[] Examples => new[]
+        {
+            "Player colors are black and white",
+            "Player colors are red, white and blue",
+            "Player colors are #333333, #cccccc",
+        };
+        
+        protected override string ExpressionPrefix => "Player colou?rs are ";
 
         protected override IEnumerable<ParserError> ParseValues(GameDefinitionBuilder builder, List<Capture> values)
         {

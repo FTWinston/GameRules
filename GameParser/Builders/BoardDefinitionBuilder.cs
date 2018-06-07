@@ -17,8 +17,8 @@ namespace GameParser.Builders
 
         public bool AllowMultipleOccupancy { get; set; } = true;
 
-        public string BackgroundColor { get; set; }
-        public string BorderColor { get; set; }
+        public string BackgroundColor { get; set; } = "grey";
+        public string BorderColor { get; set; } = null;
         public int BorderWidth { get; set; } = 0;
 
         public bool CanBuild()

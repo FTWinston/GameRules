@@ -18,7 +18,8 @@ namespace GameParser
 
             yield return new BoardGrid();
             yield return new CellOccupancy();
-            yield return new CellColorSingle();
+            yield return new CellColor();
+            yield return new CellBorder();
         }
     }
 }

@@ -8,7 +8,16 @@ namespace GameParser.Sentences
 {
     public class PlayerNames : ListParser<GameDefinitionBuilder>
     {
-        protected override string ExpressionPrefix => "player names are ";
+        public override string Name => "Specify player names";
+        public override string Group => "Players";
+
+        public override string[] Examples => new[]
+        {
+            "Player names are black and white",
+            "Player names are offense, defense and neutral",
+        };
+
+        protected override string ExpressionPrefix => "Player names are ";
 
         protected override IEnumerable<ParserError> ParseValues(GameDefinitionBuilder builder, List<Capture> values)
         {

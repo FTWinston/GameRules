@@ -16,7 +16,8 @@ Player names are attacker, neutral and defender.
 Player colors are red, #cccccc and blue.
 
 The board is an 8x8 grid. Only one piece can occupy a cell on the board.
-Cells on the board are colored grey, and have a thin black border.
+Cells on the board are colored grey.
+Cells on the board have a thin black border.
 ";
 
             var parser = new GameDefinitionParser();

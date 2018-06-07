@@ -42,6 +42,8 @@ namespace GameParserTests.SentenceParsers
 
         [Theory]
         [InlineData("Player colors are silly and invalid")]
+        [InlineData("Player colors are #ccc and black")]
+        [InlineData("Player colors are white and #00000g")]
         public void TestInvalid(string sentence)
         {
             var parser = new PlayerColors();
@@ -62,8 +64,6 @@ namespace GameParserTests.SentenceParsers
         [InlineData("Players color are red, white, blue")]
         [InlineData("Player colors are red and white and blue")]
         [InlineData("Player color is grey")]
-        [InlineData("Player colors are #ccc and black")]
-        [InlineData("Player colors are white and #00000g")]
         public void TestNotMatching(string sentence)
         {
             var parser = new PlayerColors();

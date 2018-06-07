@@ -13,8 +13,6 @@ namespace GameParser
             return HexColor.IsMatch(color) || DefaultColors.Contains(color);
         }
 
-        public static string ColorExpression { get; } = "#[a-f\\d]{6}|\\w+";
-
         private static Regex HexColor { get; } = new Regex("#[a-f\\d]{6}", RegexOptions.IgnoreCase);
 
         public static string[] DefaultColors { get; } = new[] {

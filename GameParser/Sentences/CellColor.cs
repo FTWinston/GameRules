@@ -6,9 +6,18 @@ using System.Text.RegularExpressions;
 
 namespace GameParser.Sentences
 {
-    public class CellColorSingle : SentenceParser<GameDefinitionBuilder>
+    public class CellColor : SentenceParser<GameDefinitionBuilder>
     {
-        protected override string Expression => $"cells on (?:the )?(\\w+) are colou?red ({Colors.ColorExpression})(?:, and have a (thin|thick)? ({Colors.ColorExpression}) border)?";
+        public override string Name => "Specify the color of board cells.";
+        public override string Group => "Board";
+
+        public override string[] Examples => new[]
+        {
+            "Cells on the board are colored grey",
+            "Cells on the board are colored #66cccc",
+        };
+
+        protected override string ExpressionText => $"Cells on (?:the )?(\\w+) are colou?red (\\S+)";
 
         protected override IEnumerable<ParserError> ParseMatch(GameDefinitionBuilder builder, Match match)
         {
@@ -29,30 +38,7 @@ namespace GameParser.Sentences
                 yield return new ParserError($"Invalid color: '{backgroundColor}' not recognised.", match.Groups[2]);
                 success = false;
             }
-
-            if (match.Groups[4].Success)
-            {
-                var borderColor = match.Groups[4].Value;
-
-                if (!Colors.IsValidColor(borderColor))
-                {
-                    yield return new ParserError($"Invalid color: '{borderColor}' not recognised.", match.Groups[4]);
-                    success = false;
-                }
-
-                int thickness = 2;
-                if (match.Groups[3].Success)
-                {
-                    thickness = match.Groups[3].Value.Equals("thin", StringComparison.InvariantCultureIgnoreCase) ? 1 : 3;
-                }
-
-                if (success)
-                {
-                    board.BorderColor = borderColor;
-                    board.BorderWidth = thickness;
-                }
-            }
-
+            
             if (success)
             {
                 board.BackgroundColor = backgroundColor;
