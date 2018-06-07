@@ -16,7 +16,7 @@ namespace GameParser.Sentences
             "Scoreboard is a 2 by 10 grid",
         };
 
-        protected override string ExpressionText => "(?:The )?(\\w+) is an? (\\d+)(?:x| by )(\\d+) grid";
+        protected override string ExpressionText => $"(?:The )?({WordExpression}) is an? (\\d+)(?:x| by )(\\d+) grid";
 
         protected override IEnumerable<ParserError> ParseMatch(GameDefinitionBuilder builder, Match match)
         {

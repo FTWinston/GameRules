@@ -17,7 +17,7 @@ namespace GameParser.Sentences
             "Cells on the board are colored #66cccc",
         };
 
-        protected override string ExpressionText => $"Cells on (?:the )?(\\w+) are colou?red (\\S+)";
+        protected override string ExpressionText => $"Cells on (?:the )?({WordExpression}) are colou?red ({WordExpression})";
 
         protected override IEnumerable<ParserError> ParseMatch(GameDefinitionBuilder builder, Match match)
         {

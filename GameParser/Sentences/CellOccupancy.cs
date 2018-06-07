@@ -17,7 +17,7 @@ namespace GameParser.Sentences
             "Only one piece can occupy a cell on scoreboard",
         };
 
-        protected override string ExpressionText => "(multiple pieces|only one piece) can occupy a cell on (?:the )?(\\w+)";
+        protected override string ExpressionText => $"(multiple pieces|only one piece) can occupy a cell on (?:the )?({WordExpression})";
 
         protected override IEnumerable<ParserError> ParseMatch(GameDefinitionBuilder builder, Match match)
         {

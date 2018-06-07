@@ -20,7 +20,7 @@ namespace GameParser.Sentences
         };
 
         // TODO: allow specifying only particular rows or columns
-        protected override string ExpressionText => "Cells on (?:the )?(\\w+) have (no|an? (?:(\\w+) )?(\\S+)) border";
+        protected override string ExpressionText => $"Cells on (?:the )?({WordExpression}) have (no|an? (?:({WordExpression}) )?({WordExpression})) border";
 
         protected override IEnumerable<ParserError> ParseMatch(GameDefinitionBuilder builder, Match match)
         {
