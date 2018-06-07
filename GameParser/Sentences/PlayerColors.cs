@@ -20,7 +20,7 @@ namespace GameParser.Sentences
         
         protected override string ExpressionPrefix => "Player colou?rs are ";
 
-        protected override IEnumerable<ParserError> ParseValues(GameDefinitionBuilder builder, List<Capture> values)
+        protected override IEnumerable<ParserError> ParseMatch(GameDefinitionBuilder builder, Match match, List<Capture> values)
         {
             bool success = true;
 

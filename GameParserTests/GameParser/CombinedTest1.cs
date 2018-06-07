@@ -16,8 +16,8 @@ Player names are attacker, neutral and defender.
 Player colors are red, #cccccc and blue.
 
 The board is an 8x8 grid. Only one piece can occupy a cell on the board.
-Cells on the board are colored grey.
-Cells on the board have a thin black border.
+Cells on the board are alternately colored black and white.
+Cells on the board have a thin grey border.
 ";
 
             var parser = new GameDefinitionParser();
@@ -43,10 +43,13 @@ Cells on the board have a thin black border.
 
             var board = definition.Boards[0];
             Assert.Equal(64, board.Cells.Length);
-            Assert.Equal("grey", board.Cells.First().Color);
-
-            Assert.Equal("black", board.BorderColor);
+            Assert.Equal("grey", board.BorderColor);
             Assert.Equal(1, board.BorderWidth);
+
+            for (int iCell = 0; iCell < board.Cells.Length; iCell++)
+            {
+                Assert.Equal(board.Cells[iCell].Color, iCell % 2 == 0 ? "black" : "white");
+            }
         }
     }
 }

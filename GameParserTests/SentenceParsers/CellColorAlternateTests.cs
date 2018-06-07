@@ -5,13 +5,13 @@ using Xunit;
 
 namespace GameParserTests.SentenceParsers
 {
-    public class CellColorTests : SentenceParserTest<CellColorSingle>
+    public class CellColorAlternateTests : SentenceParserTest<CellColorAlternate>
     {
         [Theory]
-        [InlineData("Cells on the board are colored red", "red")]
-        [InlineData("Cells on the board are coloured black", "black")]
-        [InlineData("Cells on the board are colored #cccccc", "#cccccc")]
-        public void TestValid(string sentence, string color)
+        [InlineData("Cells on the board are alternately colored black and white", new[] { "black", "white" })]
+        [InlineData("Cells on the board are alternately colored red, white and blue", new[] { "red", "white", "blue" })]
+        [InlineData("Cells on the board are alternately colored #cccccc, #333333", new[] { "#cccccc", "#333333" })]
+        public void TestValid(string sentence, string[] colors)
         {
             var parser = CreateParser();
             var builder = new GameDefinitionBuilder();
@@ -26,14 +26,19 @@ namespace GameParserTests.SentenceParsers
             Assert.Single(definition.Boards);
 
             var board = definition.Boards[0];
+            int iColor = 0;
+
             foreach (var cell in board.Cells)
             {
-                Assert.Equal(cell.Color, color);
+                Assert.Equal(cell.Color, colors[iColor++]);
+
+                if (iColor >= colors.Length)
+                    iColor = 0;
             }
         }
 
         [Theory]
-        [InlineData("Cells on the board are colored sausage")]
+        [InlineData("Cells on the board are alternately colored red, white and nonsense")]
         public override void TestInvalid(string sentence)
         {
             var parser = CreateParser();
@@ -46,7 +51,7 @@ namespace GameParserTests.SentenceParsers
 
         [Theory]
         [InlineData("")]
-        [InlineData("Cells on the board are not coloured")]
+        [InlineData("Cells on the board are colored black and white")]
         public override void TestNotMatching(string sentence)
         {
             var parser = CreateParser();
@@ -58,7 +63,7 @@ namespace GameParserTests.SentenceParsers
         }
 
         [Theory]
-        [InlineData("Cells on the board are colored grey")]
+        [InlineData("Cells on the board are alternately colored black and white")]
         public override void TestMissingRequirement(string sentence)
         {
             var parser = CreateParser();

@@ -17,7 +17,7 @@ namespace GameParser.Builders
 
         public bool AllowMultipleOccupancy { get; set; } = true;
 
-        public string BackgroundColor { get; set; } = "grey";
+        public string[] BackgroundColors { get; set; } = new[] { "grey" };
         public string BorderColor { get; set; } = null;
         public int BorderWidth { get; set; } = 0;
 
@@ -29,8 +29,15 @@ namespace GameParser.Builders
         public BoardDefinition Build()
         {
             var cells = new List<CellDefinition>();
-            for (int i = Width * Height; i > 0; i--)
-                cells.Add(new CellDefinition(BackgroundColor));
+            int iColor = 0;
+
+            for (int iCell = 0; iCell < Width * Height; iCell++)
+            {
+                cells.Add(new CellDefinition(BackgroundColors[iColor++]));
+
+                if (iColor >= BackgroundColors.Length)
+                    iColor = 0;
+            }
 
             return new BoardDefinition(cells.ToArray(), AllowMultipleOccupancy, BorderWidth, BorderColor);
         }

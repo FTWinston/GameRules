@@ -6,9 +6,9 @@ using System.Text.RegularExpressions;
 
 namespace GameParser.Sentences
 {
-    public class CellColor : SentenceParser<GameDefinitionBuilder>
+    public class CellColorSingle : SentenceParser<GameDefinitionBuilder>
     {
-        public override string Name => "Specify the color of board cells.";
+        public override string Name => "Specify a single color for board cells.";
         public override string Group => "Board";
 
         public override string[] Examples => new[]
@@ -41,7 +41,7 @@ namespace GameParser.Sentences
             
             if (success)
             {
-                board.BackgroundColor = backgroundColor;
+                board.BackgroundColors = new[] { backgroundColor };
             }
         }
     }

@@ -5,7 +5,7 @@ using Xunit;
 
 namespace GameParserTests.SentenceParsers
 {
-    public class CellColorTests : SentenceParserTest<CellColorSingle>
+    public class CellColorSingleTests : SentenceParserTest<CellColorSingle>
     {
         [Theory]
         [InlineData("Cells on the board are colored red", "red")]
