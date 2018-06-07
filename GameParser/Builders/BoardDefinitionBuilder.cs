@@ -31,13 +31,15 @@ namespace GameParser.Builders
             var cells = new List<CellDefinition>();
             int iColor = 0;
 
-            for (int iCell = 0; iCell < Width * Height; iCell++)
-            {
-                cells.Add(new CellDefinition(BackgroundColors[iColor++]));
+            for (int row = 0; row < Height; row++)
+                for (int col = 0; col < Width; col++)
+                {
+                    var color = BackgroundColors[iColor++];
+                    cells.Add(new CellDefinition(color));
 
-                if (iColor >= BackgroundColors.Length)
-                    iColor = 0;
-            }
+                    if (iColor >= BackgroundColors.Length)
+                        iColor = 0;
+                }
 
             return new BoardDefinition(cells.ToArray(), AllowMultipleOccupancy, BorderWidth, BorderColor);
         }
