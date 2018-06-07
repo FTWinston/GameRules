@@ -1,13 +1,12 @@
 using GameParser.Builders;
 using GameParser.Sentences;
 using NaturalConfiguration;
-using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
 namespace GameParserTests.SentenceParsers
 {
-    public class PlayerCountTests
+    public class PlayerCountTests : SentenceParserTest<PlayerCount>
     {
         [Theory]
         [InlineData("There is 1 player", 1, 1)]
@@ -18,7 +17,7 @@ namespace GameParserTests.SentenceParsers
         [InlineData("There are 4 to 8 players", 4, 8)]
         public void TestValid(string sentence, int min, int max)
         {
-            var parser = new PlayerCount();
+            var parser = CreateParser();
             var builder = new GameDefinitionBuilder();
 
             var didMatch = parser.Parse(builder, sentence, out ParserError[] errors);
@@ -38,9 +37,9 @@ namespace GameParserTests.SentenceParsers
         [InlineData("There are 4 - 2 players")]
         [InlineData("There are 4-2 players")]
         [InlineData("There are 4 to 2 players")]
-        public void TestInvalid(string sentence)
+        public override void TestInvalid(string sentence)
         {
-            var parser = new PlayerCount();
+            var parser = CreateParser();
             var builder = new GameDefinitionBuilder();
 
             var didMatch = parser.Parse(builder, sentence, out ParserError[] errors);
@@ -57,9 +56,9 @@ namespace GameParserTests.SentenceParsers
         [InlineData("There are 2to 4 players")]
         [InlineData("There are 2 to4 players")]
         [InlineData("There are 2to4 players")]
-        public void TestNotMatching(string sentence)
+        public override void TestNotMatching(string sentence)
         {
-            var parser = new PlayerCount();
+            var parser = CreateParser();
             var builder = new GameDefinitionBuilder();
 
             var didMatch = parser.Parse(builder, sentence, out ParserError[] errors);
@@ -68,7 +67,7 @@ namespace GameParserTests.SentenceParsers
         }
 
         [Fact]
-        public void TestDefaults()
+        public override void TestDefaults()
         {
             var builder = new GameDefinitionBuilder();
             var definition = builder.Build();

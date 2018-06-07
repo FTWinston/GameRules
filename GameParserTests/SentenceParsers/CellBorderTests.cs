@@ -5,7 +5,7 @@ using Xunit;
 
 namespace GameParserTests.SentenceParsers
 {
-    public class CellBorderTests
+    public class CellBorderTests : SentenceParserTest<CellBorder>
     {
         [Theory]
         [InlineData("Cells on the board have no border", null, 0)]
@@ -16,7 +16,7 @@ namespace GameParserTests.SentenceParsers
         [InlineData("Cells on the board have a medium #cccccc border", "#cccccc", 2)]
         public void TestValid(string sentence, string color, int thickness)
         {
-            var parser = new CellBorder();
+            var parser = CreateParser();
             var builder = new GameDefinitionBuilder();
 
             (new BoardGrid()).Parse(builder, "The board is an 8x8 grid", out _);
@@ -35,9 +35,9 @@ namespace GameParserTests.SentenceParsers
 
         [Theory]
         [InlineData("Cells on the board have a huge red border")]
-        public void TestInvalid(string sentence)
+        public override void TestInvalid(string sentence)
         {
-            var parser = new CellBorder();
+            var parser = CreateParser();
             var builder = new GameDefinitionBuilder();
 
             var didMatch = parser.Parse(builder, sentence, out ParserError[] errors);
@@ -50,9 +50,9 @@ namespace GameParserTests.SentenceParsers
         [InlineData("Cells on the board have no black border")]
         [InlineData("Cells on the board have a border")]
         [InlineData("Cells on the board have a  border")]
-        public void TestNotMatching(string sentence)
+        public override void TestNotMatching(string sentence)
         {
-            var parser = new CellBorder();
+            var parser = CreateParser();
             var builder = new GameDefinitionBuilder();
 
             var didMatch = parser.Parse(builder, sentence, out ParserError[] errors);
@@ -62,9 +62,9 @@ namespace GameParserTests.SentenceParsers
 
         [Theory]
         [InlineData("Cells on the board have a thin black border")]
-        public void TestMissingRequirement(string sentence)
+        public override void TestMissingRequirement(string sentence)
         {
-            var parser = new CellBorder();
+            var parser = CreateParser();
             var builder = new GameDefinitionBuilder();
 
             var didMatch = parser.Parse(builder, sentence, out ParserError[] errors);
@@ -73,7 +73,7 @@ namespace GameParserTests.SentenceParsers
         }
 
         [Fact]
-        public void TestDefaults()
+        public override void TestDefaults()
         {
             var builder = new GameDefinitionBuilder();
 

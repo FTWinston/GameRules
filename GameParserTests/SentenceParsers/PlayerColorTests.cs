@@ -6,7 +6,7 @@ using Xunit;
 
 namespace GameParserTests.SentenceParsers
 {
-    public class PlayerColorTests
+    public class PlayerColorTests : SentenceParserTest<PlayerColors>
     {
         [Theory]
         [InlineData("Player colors are red, white, blue", new[] { "red", "white", "blue" })]
@@ -23,7 +23,7 @@ namespace GameParserTests.SentenceParsers
         [InlineData("Player colours are grey", new[] { "grey" })]
         public void TestValid(string sentence, string[] colors)
         {
-            var parser = new PlayerColors();
+            var parser = CreateParser();
             var builder = new GameDefinitionBuilder();
             
             (new PlayerCount()).Parse(builder, $"There are {colors.Length} players", out _);
@@ -44,9 +44,9 @@ namespace GameParserTests.SentenceParsers
         [InlineData("Player colors are silly and invalid")]
         [InlineData("Player colors are #ccc and black")]
         [InlineData("Player colors are white and #00000g")]
-        public void TestInvalid(string sentence)
+        public override void TestInvalid(string sentence)
         {
-            var parser = new PlayerColors();
+            var parser = CreateParser();
             var builder = new GameDefinitionBuilder();
 
             (new PlayerCount()).Parse(builder, $"There are 2 players", out _);
@@ -64,9 +64,9 @@ namespace GameParserTests.SentenceParsers
         [InlineData("Players color are red, white, blue")]
         [InlineData("Player colors are red and white and blue")]
         [InlineData("Player color is grey")]
-        public void TestNotMatching(string sentence)
+        public override void TestNotMatching(string sentence)
         {
-            var parser = new PlayerColors();
+            var parser = CreateParser();
             var builder = new GameDefinitionBuilder();
 
             var didMatch = parser.Parse(builder, sentence, out ParserError[] errors);
@@ -76,9 +76,9 @@ namespace GameParserTests.SentenceParsers
 
         [Theory]
         [InlineData("Player colors are red, white, blue")]
-        public void TestMissingRequirement(string sentence)
+        public override void TestMissingRequirement(string sentence)
         {
-            var parser = new PlayerColors();
+            var parser = CreateParser();
             var builder = new GameDefinitionBuilder();
 
             var didMatch = parser.Parse(builder, sentence, out ParserError[] errors);
@@ -87,7 +87,7 @@ namespace GameParserTests.SentenceParsers
         }
 
         [Fact]
-        public void TestDefaults()
+        public override void TestDefaults()
         {
             var builder = new GameDefinitionBuilder();
             var definition = builder.Build();

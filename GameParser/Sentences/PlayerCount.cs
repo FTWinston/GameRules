@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace GameParser.Sentences
 {
-    class PlayerCount : SentenceParser<GameDefinitionBuilder>
+    public class PlayerCount : SentenceParser<GameDefinitionBuilder>
     {
         public override string Name => "Specify the number of players";
         public override string Group => "Players";

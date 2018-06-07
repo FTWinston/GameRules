@@ -6,7 +6,7 @@ using Xunit;
 
 namespace GameParserTests.SentenceParsers
 {
-    public class BoardGridTests
+    public class BoardGridTests : SentenceParserTest<BoardGrid>
     {
         [Theory]
         [InlineData("The board is an 8x8 grid", 8, 8)]
@@ -16,7 +16,7 @@ namespace GameParserTests.SentenceParsers
         [InlineData("The narrow is a 20 by 1 grid", 20, 1)]
         public void TestValid(string sentence, int width, int height)
         {
-            var parser = new BoardGrid();
+            var parser = CreateParser();
             var builder = new GameDefinitionBuilder();
 
             var didMatch = parser.Parse(builder, sentence, out ParserError[] errors);
@@ -35,9 +35,9 @@ namespace GameParserTests.SentenceParsers
         [InlineData("The board is a 0x8 grid")]
         [InlineData("The board is an 51x0 grid")]
         [InlineData("Zero is a 0 by 0 grid")]
-        public void TestInvalid(string sentence)
+        public override void TestInvalid(string sentence)
         {
-            var parser = new BoardGrid();
+            var parser = CreateParser();
             var builder = new GameDefinitionBuilder();
 
             var didMatch = parser.Parse(builder, sentence, out ParserError[] errors);
@@ -52,9 +52,9 @@ namespace GameParserTests.SentenceParsers
         [InlineData("The board is a 5by4 grid")]
         [InlineData("The board is an 8 by 8 gird")]
         [InlineData("Two words is a 6x6 grid")]
-        public void TestNotMatching(string sentence)
+        public override void TestNotMatching(string sentence)
         {
-            var parser = new BoardGrid();
+            var parser = CreateParser();
             var builder = new GameDefinitionBuilder();
 
             var didMatch = parser.Parse(builder, sentence, out ParserError[] errors);
@@ -63,7 +63,7 @@ namespace GameParserTests.SentenceParsers
         }
 
         [Fact]
-        public void TestDefaults()
+        public override void TestDefaults()
         {
             var builder = new GameDefinitionBuilder();
             var definition = builder.Build();

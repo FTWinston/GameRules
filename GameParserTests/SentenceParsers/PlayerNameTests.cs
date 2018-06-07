@@ -1,12 +1,11 @@
 using GameParser.Builders;
 using GameParser.Sentences;
 using NaturalConfiguration;
-using System.Collections.Generic;
 using Xunit;
 
 namespace GameParserTests.SentenceParsers
 {
-    public class PlayerNameTests
+    public class PlayerNameTests : SentenceParserTest<PlayerNames>
     {
         [Theory]
         [InlineData("Player names are Jimmy, Bob", new[] { "Jimmy", "Bob" })]
@@ -16,7 +15,7 @@ namespace GameParserTests.SentenceParsers
         [InlineData("Player names are Loner", new[] { "Loner" })]
         public void TestValid(string sentence, string[] names)
         {
-            var parser = new PlayerNames();
+            var parser = CreateParser();
             var builder = new GameDefinitionBuilder();
             
             (new PlayerCount()).Parse(builder, $"There are {names.Length} players", out _);
@@ -41,9 +40,9 @@ namespace GameParserTests.SentenceParsers
         [InlineData("Player names are red and white and blue")]
         [InlineData("Player name is grey")]
         [InlineData("Player names are Alpha,Bravo and Charlie")]
-        public void TestNotMatching(string sentence)
+        public override void TestNotMatching(string sentence)
         {
-            var parser = new PlayerNames();
+            var parser = CreateParser();
             var builder = new GameDefinitionBuilder();
 
             var didMatch = parser.Parse(builder, sentence, out ParserError[] errors);
@@ -53,9 +52,9 @@ namespace GameParserTests.SentenceParsers
 
         [Theory]
         [InlineData("Player names are red, white, blue")]
-        public void TestMissingRequirement(string sentence)
+        public override void TestMissingRequirement(string sentence)
         {
-            var parser = new PlayerNames();
+            var parser = CreateParser();
             var builder = new GameDefinitionBuilder();
 
             var didMatch = parser.Parse(builder, sentence, out ParserError[] errors);
@@ -64,7 +63,7 @@ namespace GameParserTests.SentenceParsers
         }
 
         [Fact]
-        public void TestDefaults()
+        public override void TestDefaults()
         {
             var builder = new GameDefinitionBuilder();
             var definition = builder.Build();
