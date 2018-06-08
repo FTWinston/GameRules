@@ -33,16 +33,18 @@ namespace WebEditor.Controllers
             public string[] Examples { get; set; }
         }
 
-        [HttpPost("[action]")]
-        public IEnumerable<ParserError> Parse([FromBody] string text)
+        public class ParserData
         {
-            if (text == null)
-                return null;
+            public string Text { get; set; }
+        }
 
+        [HttpPost("[action]")]
+        public IEnumerable<ParserError> Parse([FromBody] ParserData data)
+        {
             var parser = new GameDefinitionParser();
             var builder = new GameDefinitionBuilder();
 
-            var errors = parser.Parse(builder, text);
+            var errors = parser.Parse(builder, data.Text);
 
             if (errors.Count == 0)
             {

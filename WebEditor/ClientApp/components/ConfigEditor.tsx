@@ -108,7 +108,7 @@ export class ConfigEditor extends React.Component<RouteComponentProps<{}>, Confi
             method: 'POST',
             body: JSON.stringify({ text: this.state.text }),
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                'Content-Type': 'application/json'
             },
         })
             .then(response => response.json() as Promise<ParserError[]>)
