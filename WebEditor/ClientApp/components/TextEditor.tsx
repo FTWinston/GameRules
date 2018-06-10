@@ -8,7 +8,7 @@ interface TextSegment {
 
 interface TextEditorProps {
     text: string;
-    onchange: (text: string) => void;
+    onchange: (text: string, cursorPos: number) => void;
     highlights: TextSegment[];
     className?: string;
 }
@@ -30,7 +30,7 @@ export class TextEditor extends React.PureComponent<TextEditorProps, {}> {
         this.isIOS = !this.isWinPhone && !!ua.match(/ipad|iphone|ipod/);
     }
 
-    componentDidUpdate(prevProps: TextEditorProps, prevState: {}) {
+    public componentDidUpdate(prevProps: TextEditorProps, prevState: {}) {
         if (prevProps.highlights !== this.props.highlights) {
             this.renderHighlights(this.props.text);
         }
@@ -64,9 +64,7 @@ export class TextEditor extends React.PureComponent<TextEditorProps, {}> {
     }
 
     private handleInput(textarea: HTMLTextAreaElement) {
-        this.props.onchange(textarea.value);
-
-        this.renderHighlights(textarea.value);
+        this.props.onchange(textarea.value, textarea.selectionStart);
     }
 
     private handleScroll(textarea: HTMLTextAreaElement) {

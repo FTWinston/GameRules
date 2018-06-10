@@ -65,7 +65,7 @@ export class ConfigEditor extends React.Component<RouteComponentProps<{}>, Confi
                 className="editor__input"
                 highlights={this.state.errors}
                 text={this.state.text}
-                onchange={text => this.setState({ text: text })}
+                onchange={(text, cursorPos) => this.textChanged(text, cursorPos)}
             />
         );
     }
@@ -109,6 +109,23 @@ export class ConfigEditor extends React.Component<RouteComponentProps<{}>, Confi
                 </table>
             </div>
         );
+    }
+
+    private textChanged(text: string, cursorPos: number) {
+        const errors = this.state.errors.slice();
+        const difference = text.length - this.state.text.length;
+
+        // amend state copy of highlights to account for text changes
+        for (let error of this.state.errors) {
+            if (error.startIndex >= cursorPos - 1) {
+                error.startIndex += difference;
+            }
+        }
+
+        this.setState({
+            text: text,
+            errors: errors,
+        });
     }
 
     private submit() {
