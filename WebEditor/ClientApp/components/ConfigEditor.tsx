@@ -2,6 +2,7 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
 import './ConfigEditor.css';
+import { TextEditor } from './TextEditor';
 
 interface ConfigEditorState {
     text: string;
@@ -58,7 +59,15 @@ export class ConfigEditor extends React.Component<RouteComponentProps<{}>, Confi
     }
 
     private renderInput() {
-        return <textarea key="input" className="editor__input" value={this.state.text} onChange={e => this.setState({ text: e.target.value })} />
+        return (
+            <TextEditor
+                key="text"
+                className="editor__input"
+                highlights={this.state.errors}
+                text={this.state.text}
+                onchange={text => this.setState({ text: text })}
+            />
+        );
     }
 
     private renderErrors() {
@@ -66,7 +75,6 @@ export class ConfigEditor extends React.Component<RouteComponentProps<{}>, Confi
             ? <li>No errors reported</li>
             : this.state.errors.map((err, index) => (
                 <li key={index}>
-                    <span className="info">{err.length} characters, starting at position {err.startIndex}: </span>
                     {err.message}
                 </li>
             ));

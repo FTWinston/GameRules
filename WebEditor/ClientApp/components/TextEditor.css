@@ -1,0 +1,55 @@
+.textEditor {
+    display: block;
+    position: relative;
+    -webkit-text-size-adjust: none;
+}
+
+.textEditor__highlights, .textEditor__text {
+    padding: 10px;
+    font-size: 1em;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    letter-spacing: 1px;
+}
+
+.textEditor__backdrop {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    border: 2px solid #685972;
+    background-color: #fff;
+    overflow: auto;
+    pointer-events: none;
+}
+
+.textEditor__highlights {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: transparent;
+}
+
+.textEditor__text {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    margin: 0;
+    border: 2px solid #74637f;
+    border-radius: 0;
+    color: #444;
+    background-color: transparent;
+    overflow: auto;
+    resize: none;
+}
+
+.textEditor mark {
+    padding: 0;
+    border-radius: 3px;
+    color: transparent;
+    background-color: #b1d5e5;
+}
+
+.textEditor__text:focus {
+    outline: none;
+}
